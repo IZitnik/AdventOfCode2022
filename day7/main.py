@@ -2,15 +2,15 @@ import re
 
 def get_size(dir_tree:dict[dict], dir_name:str) -> int:
     size = 0 
-    for name, data in dir_tree[dir_name].items():
-        if data == "dir":
+    for gs_name, gs_data in dir_tree[dir_name].items():
+        if gs_data == "dir":
             if dir_name != "":
-                ndir = dir_name + "_" + name
+                ndir = dir_name + "_" + gs_name
             else:
-                ndir = name
+                ndir = gs_name
             size += get_size(dir_tree, ndir)
         else:
-            size += int(data)
+            size += int(gs_data)
     return size
 
 with open("input.txt", "r", encoding="ascii") as f:
@@ -40,8 +40,8 @@ with open("input.txt", "r", encoding="ascii") as f:
 
     total_size = 0
     for dirname in size_tree.keys():
-        if (size := get_size(size_tree, dirname)) <= 100000:
-            total_size += size
+        if (dir_size := get_size(size_tree, dirname)) <= 100000:
+            total_size += dir_size
     print(f"Total size of all directories below size 100,000: {total_size}")
 
     space_left = 70_000_000-get_size(size_tree, "")
